@@ -3,15 +3,16 @@ from random import randint
 
 #1. klasa filmy
 class Movie:
-    def __init__(self, title, year, genre):
+    def __init__(self, title, year, genre, plays):
         self.title = title
         self.year = year
         self.genre = genre
-        # variables
-        self.played = 0
+        self.plays = plays
+
 #3. dodanie odtworzenia
     def play(self):
-        self.played += 1
+        self.plays += 1
+
 #5. tytuł i rok
     def __str__(self):
         return f'{self.title} ({self.year}) '
@@ -26,24 +27,38 @@ class Series(Movie):
 #4. odcienk
     def __str__(self):
         return f'{self.title} S{self.episode:0=2d}E{self.season:0=2d}'
+
 #7. funkcje movies/series
 def get_movies():
-    only_movies_list = [movie for movie in list if not isinstance(movie, Series)]
-    print(only_movies_list)
-
+    movies = []
+    for movie in list:
+        if isinstance(movie, Series):
+            continue
+        movies.append(movie)
+    return sorted(movies, key=lambda movie: movie.title)
 
 def get_series():
-    only_series_list = [movie for movie in list if isinstance(movie, Series)]
-    print(only_series_list)
+    series = []
+    for movie in list:
+        if isinstance(movie, Series):
+            series.append(movie)
+    return sorted(series, key=lambda series: series.title)
 
-list = [Movie("Skazani na Shawshank", 1994, "Dramat"), 
-        Movie("Nietykalni", 2011, "Dramat/Komedia"),
-        Movie("Zielona mila", 1999, "Dramat"), 
-        Movie("Ojciec chrzestny", 1972, "Dramat/Gangsterski"),
-        Movie("Dwunastu gniewnych ludzi", 1957, "Dramat sądowy"), 
-        Series("Czarnobyl", 2019, "Dramat", 1, 1),
-        Series("Breaking Bad", 2008, "Dramat/Kryminał", 1, 2), 
-        Series("Gra o tron", 2011, "Dramat/Przygodowy", 2, 3),
-        Series("Nasza planeta", 2019, "Dokumentalny", 3, 4),
-        Series("Kompania braci", 2001, "Dramat/Wojenny", 4, 5), 
-        Series("Biuro", 2005, "Commedy", 5, 6),]
+#8. funkcja search
+def search(title):
+    for movie in list:
+        if movie.title == title:
+            return movie
+
+#6. lista filmów i seriali
+list = [Movie("Skazani na Shawshank", 1994, "Dramat", 1), 
+        Movie("Nietykalni", 2011, "Dramat/Komedia", 1),
+        Movie("Zielona mila", 1999, "Dramat", 2), 
+        Movie("Ojciec chrzestny", 1972, "Dramat/Gangsterski", 3),
+        Movie("Dwunastu gniewnych ludzi", 1957, "Dramat sądowy", 4), 
+        Series("Czarnobyl", 2019, "Dramat", 5, 1, 1),
+        Series("Breaking Bad", 2008, "Dramat/Kryminał", 6, 1, 2), 
+        Series("Gra o tron", 2011, "Dramat/Przygodowy", 7, 2, 3),
+        Series("Nasza planeta", 2019, "Dokumentalny", 8, 3, 4),
+        Series("Kompania braci", 2001, "Dramat/Wojenny", 9, 4, 5), 
+        Series("Biuro", 2005, "Commedy", 10, 5, 6),]
